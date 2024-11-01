@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { View, TouchableOpacity, StyleSheet } from 'react-native';
 import { Button, Text, TextInput } from 'react-native-paper';
 
-const LoginScreen = ({ navigation }) => {
+const LoginScreen = ({ navigation, setToken }) => {
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 
@@ -29,7 +29,11 @@ const LoginScreen = ({ navigation }) => {
 			<Button mode={'contained'} onPress={() => {}} style={styles.button}>
 				Đăng Nhập
 			</Button>
-			<TouchableOpacity onPress={() => {}}>
+			<TouchableOpacity
+				onPress={() => {
+					navigation.navigate('RegisterScreen');
+				}}
+			>
 				<Text style={styles.signupText}>Bạn chưa có tài khoản? Đăng Ký</Text>
 			</TouchableOpacity>
 		</View>

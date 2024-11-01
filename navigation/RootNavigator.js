@@ -19,8 +19,7 @@ const RootNavigator = () => {
 				<>
 					<RNStack.Screen
 						name="HomeScreen"
-						component={HomeScreen}
-						setToken={setToken}
+						children={(props) => <HomeScreen {...props} setToken={setToken} />}
 					/>
 					<RNStack.Screen
 						name="RoomDetailScreen"
@@ -31,8 +30,7 @@ const RootNavigator = () => {
 				<>
 					<RNStack.Screen
 						name="LoginScreen"
-						component={LoginScreen}
-						setToken={setToken}
+						children={(props) => <LoginScreen {...props} setToken={setToken} />}
 					/>
 					<RNStack.Screen name="RegisterScreen" component={RegisterScreen} />
 				</>

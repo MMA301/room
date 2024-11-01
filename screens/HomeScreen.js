@@ -26,7 +26,7 @@ const roomsData = [
 	},
 ];
 
-const HomeScreen = ({ navigation }) => {
+const HomeScreen = ({ navigation, setToken }) => {
 	const [location, setLocation] = useState(null);
 
 	useEffect(() => {
@@ -47,7 +47,10 @@ const HomeScreen = ({ navigation }) => {
 			{ text: 'Hủy', style: 'cancel' },
 			{
 				text: 'Đăng xuất',
-				onPress: () => console.log('Người dùng đã đăng xuất'),
+				onPress: () => {
+					setToken(null);
+					navigation.navigate('LoginScreen');
+				},
 			},
 		]);
 	};
