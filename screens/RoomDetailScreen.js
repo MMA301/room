@@ -4,6 +4,8 @@ import MapView, { Marker } from 'react-native-maps';
 import { Button, Divider, Appbar } from 'react-native-paper';
 import { formatCurrency } from 'react-native-format-currency';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import { getDatabase, ref, onValue } from 'firebase/database';
+import { app } from '../utils/firebase';
 
 const RoomDetailScreen = ({ route, navigation }) => {
 	const { roomId } = route.params;
@@ -16,29 +18,23 @@ const RoomDetailScreen = ({ route, navigation }) => {
 
 	useEffect(() => {
 		const fetchRoomDetails = async () => {
-			try {
-				// const response = await fetch(
-				// 	`https://your-api-endpoint/rooms/${roomId}`,
-				// );
-				// const data = await response.json();
-				setRoom({
-					title: 'Căn hộ ấm cúng',
-					description: 'Một căn hộ xinh đẹp ở trung tâm thành phố.',
-					pricePerNight: 100,
-					location: {
-						latitude: 12.345678,
-						longitude: 98.765432,
-					},
-					amenities: ['Wi-Fi', 'Điều hòa không khí'],
-					imageURL:
-						'https://raw.githubusercontent.com/hardingadonis/hardingadonis/refs/heads/main/imgs/peaceful-banner.gif',
-					availability: true,
-					createdAt: '2024-01-01T00:00:00Z',
-				});
-			} catch (error) {
-				console.error('Error fetching room data:', error);
-				Alert.alert('Error', 'Unable to load room details.');
-			}
+			const db = getDatabase(app);
+			const roomRef = ref(db, `rooms/${roomId}`);
+
+			onValue(
+				roomRef,
+				(snapshot) => {
+					const data = snapshot.val();
+					if (data) {
+						setRoom(data);
+					} else {
+						Alert.alert('Error', 'Room not found.');
+					}
+				},
+				{
+					onlyOnce: true,
+				},
+			);
 		};
 
 		fetchRoomDetails();
