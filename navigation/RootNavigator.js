@@ -6,7 +6,10 @@ const RNStack = createNativeStackNavigator();
 
 const RootNavigator = () => {
 	return (
-		<RNStack.Navigator screenOptions={{ headerShown: false }}>
+		<RNStack.Navigator
+			screenOptions={{ headerShown: false }}
+			initialRouteName="LoginScreen"
+		>
 			<RNStack.Screen name="LoginScreen" component={LoginScreen} />
 			<RNStack.Screen name="RegisterScreen" component={RegisterScreen} />
 		</RNStack.Navigator>
