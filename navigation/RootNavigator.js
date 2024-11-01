@@ -4,6 +4,7 @@ import HomeScreen from '../screens/HomeScreen';
 import LoginScreen from '../screens/LoginScreen';
 import RegisterScreen from '../screens/RegisterScreen';
 import RoomDetailScreen from '../screens/RoomDetailScreen';
+import HistoryBooking from '../screens/HistoryBooking';
 
 const RNStack = createNativeStackNavigator();
 
@@ -19,12 +20,15 @@ const RootNavigator = () => {
 				<>
 					<RNStack.Screen
 						name="HomeScreen"
-						children={(props) => <HomeScreen {...props} setToken={setToken} />}
+						children={(props) => (
+							<HomeScreen {...props} token={token} setToken={setToken} />
+						)}
 					/>
 					<RNStack.Screen
 						name="RoomDetailScreen"
 						component={RoomDetailScreen}
 					/>
+					<RNStack.Screen name="HistoryBooking" component={HistoryBooking} />
 				</>
 			) : (
 				<>

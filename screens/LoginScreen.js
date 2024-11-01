@@ -20,7 +20,7 @@ const LoginScreen = ({ navigation, setToken }) => {
 				password,
 			);
 			const user = userCredential.user;
-			setToken(user.accessToken);
+			setToken(user.uid);
 			navigation.navigate('HomeScreen');
 		} catch (error) {
 			setError(error.message);

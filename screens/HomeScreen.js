@@ -7,7 +7,7 @@ import { Card, Button, Appbar, Divider } from 'react-native-paper';
 import { getDatabase, ref, onValue } from 'firebase/database';
 import { app } from '../utils/firebase';
 
-const HomeScreen = ({ navigation, setToken }) => {
+const HomeScreen = ({ navigation, token, setToken }) => {
 	const [location, setLocation] = useState(null);
 	const [roomsData, setRoomsData] = useState([]);
 
@@ -85,6 +85,12 @@ const HomeScreen = ({ navigation, setToken }) => {
 		<View style={styles.container}>
 			<Appbar.Header>
 				<Appbar.Content title="Đặt Phòng" />
+				<Appbar.Action
+					icon="history"
+					onPress={() =>
+						navigation.navigate('HistoryBooking', { userId: token })
+					}
+				/>
 				<Appbar.Action icon="logout" onPress={handleLogout} />
 			</Appbar.Header>
 

@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { View, TouchableOpacity, StyleSheet } from 'react-native';
 import { Button, Text, TextInput } from 'react-native-paper';
 import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
+import { getDatabase, ref, set } from 'firebase/database';
 import { app } from '../utils/firebase';
 
 const RegisterScreen = ({ navigation }) => {
@@ -11,11 +12,23 @@ const RegisterScreen = ({ navigation }) => {
 	const [error, setError] = useState('');
 
 	const auth = getAuth(app);
+	const db = getDatabase(app);
 
 	const handleRegister = async () => {
 		setError('');
 		try {
-			await createUserWithEmailAndPassword(auth, email, password);
+			const userCredential = await createUserWithEmailAndPassword(
+				auth,
+				email,
+				password,
+			);
+
+			const userId = userCredential.user.uid;
+			await set(ref(db, `users/${userId}`), {
+				email: email,
+				name: name,
+			});
+
 			navigation.navigate('LoginScreen');
 		} catch (error) {
 			setError(error.message);
