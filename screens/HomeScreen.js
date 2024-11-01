@@ -4,30 +4,12 @@ import MapView, { Marker } from 'react-native-maps';
 import * as Location from 'expo-location';
 import { formatCurrency } from 'react-native-format-currency';
 import { Card, Button, Appbar, Divider } from 'react-native-paper';
-
-const roomsData = [
-	{
-		id: 'roomId1',
-		title: 'Căn hộ ấm cúng',
-		description: 'Một căn hộ xinh đẹp ở trung tâm thành phố.',
-		pricePerNight: '100',
-		amenities: ['Wi-Fi', 'Điều hòa không khí'],
-		imageURL:
-			'https://raw.githubusercontent.com/hardingadonis/hardingadonis/refs/heads/main/imgs/peaceful-banner.gif',
-	},
-	{
-		id: 'roomId2',
-		title: 'Suite sang trọng',
-		description: 'Một suite rộng rãi với tầm nhìn tuyệt đẹp.',
-		pricePerNight: '250',
-		amenities: ['Wi-Fi', 'Hồ bơi', 'Phòng tập'],
-		imageURL:
-			'https://raw.githubusercontent.com/hardingadonis/hardingadonis/refs/heads/main/imgs/peaceful-banner.gif',
-	},
-];
+import { getDatabase, ref, onValue } from 'firebase/database';
+import { app } from '../utils/firebase';
 
 const HomeScreen = ({ navigation, setToken }) => {
 	const [location, setLocation] = useState(null);
+	const [roomsData, setRoomsData] = useState([]);
 
 	useEffect(() => {
 		(async () => {
@@ -40,6 +22,22 @@ const HomeScreen = ({ navigation, setToken }) => {
 			let currentLocation = await Location.getCurrentPositionAsync({});
 			setLocation(currentLocation.coords);
 		})();
+	}, []);
+
+	useEffect(() => {
+		const db = getDatabase(app);
+		const roomsRef = ref(db, 'rooms/');
+
+		onValue(roomsRef, (snapshot) => {
+			const data = snapshot.val();
+			if (data) {
+				const roomsArray = Object.keys(data).map((key) => ({
+					id: key,
+					...data[key],
+				}));
+				setRoomsData(roomsArray);
+			}
+		});
 	}, []);
 
 	const handleLogout = () => {
