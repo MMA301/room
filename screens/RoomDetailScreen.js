@@ -62,7 +62,7 @@ const RoomDetailScreen = ({ route, navigation }) => {
 			`Bạn có chắc chắn muốn đặt phòng từ ngày ${startDate.toLocaleDateString()} đến ${endDate.toLocaleDateString()}?`,
 			[
 				{ text: 'Hủy', style: 'cancel' },
-				{ text: 'Xác nhận', onPress: () => console.log('Phòng đã được đặt') },
+				{ text: 'Xác nhận', onPress: () => navigation.goBack() },
 			],
 		);
 	};
