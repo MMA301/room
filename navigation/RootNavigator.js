@@ -3,6 +3,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import HomeScreen from '../screens/HomeScreen';
 import LoginScreen from '../screens/LoginScreen';
 import RegisterScreen from '../screens/RegisterScreen';
+import RoomDetailScreen from '../screens/RoomDetailScreen';
 
 const RNStack = createNativeStackNavigator();
 
@@ -15,7 +16,13 @@ const RootNavigator = () => {
 			initialRouteName={token ? 'HomeScreen' : 'LoginScreen'}
 		>
 			{token ? (
-				<RNStack.Screen name="HomeScreen" component={HomeScreen} />
+				<>
+					<RNStack.Screen name="HomeScreen" component={HomeScreen} />
+					<RNStack.Screen
+						name="RoomDetailScreen"
+						component={RoomDetailScreen}
+					/>
+				</>
 			) : (
 				<>
 					<RNStack.Screen name="LoginScreen" component={LoginScreen} />

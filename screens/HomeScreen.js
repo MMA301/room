@@ -26,7 +26,7 @@ const roomsData = [
 	},
 ];
 
-const HomeScreen = () => {
+const HomeScreen = ({ navigation }) => {
 	const [location, setLocation] = useState(null);
 
 	useEffect(() => {
@@ -69,7 +69,9 @@ const HomeScreen = () => {
 					<Button
 						mode="contained"
 						style={styles.button}
-						onPress={() => alert('Xem Chi Tiết')}
+						onPress={() =>
+							navigation.navigate('RoomDetailScreen', { roomId: item.id })
+						}
 					>
 						Xem Chi Tiết
 					</Button>
