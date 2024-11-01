@@ -8,7 +8,7 @@ import RoomDetailScreen from '../screens/RoomDetailScreen';
 const RNStack = createNativeStackNavigator();
 
 const RootNavigator = () => {
-	const [token, setToken] = useState('null');
+	const [token, setToken] = useState(null);
 
 	return (
 		<RNStack.Navigator

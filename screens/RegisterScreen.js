@@ -1,17 +1,33 @@
 import { useState } from 'react';
 import { View, TouchableOpacity, StyleSheet } from 'react-native';
 import { Button, Text, TextInput } from 'react-native-paper';
+import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
+import { app } from '../utils/firebase';
 
 const RegisterScreen = ({ navigation }) => {
 	const [name, setName] = useState('');
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
+	const [error, setError] = useState('');
+
+	const auth = getAuth(app);
+
+	const handleRegister = async () => {
+		setError('');
+		try {
+			await createUserWithEmailAndPassword(auth, email, password);
+			navigation.navigate('LoginScreen');
+		} catch (error) {
+			setError(error.message);
+		}
+	};
 
 	return (
 		<View style={styles.container}>
 			<Text variant={'titleLarge'} style={styles.title}>
 				Đăng Ký
 			</Text>
+			{error ? <Text style={styles.errorText}>{error}</Text> : null}
 			<TextInput
 				mode={'outlined'}
 				label={'Tên'}
@@ -34,10 +50,14 @@ const RegisterScreen = ({ navigation }) => {
 				secureTextEntry
 				style={styles.input}
 			/>
-			<Button mode={'contained'} onPress={() => {}} style={styles.button}>
+			<Button mode={'contained'} onPress={handleRegister} style={styles.button}>
 				Tạo Tài Khoản
 			</Button>
-			<TouchableOpacity onPress={() => {}}>
+			<TouchableOpacity
+				onPress={() => {
+					navigation.goBack();
+				}}
+			>
 				<Text style={styles.loginText}>Bạn đã có tài khoản? Đăng Nhập</Text>
 			</TouchableOpacity>
 		</View>
