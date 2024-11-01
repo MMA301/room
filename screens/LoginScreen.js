@@ -1,16 +1,38 @@
 import { useState } from 'react';
 import { View, TouchableOpacity, StyleSheet } from 'react-native';
 import { Button, Text, TextInput } from 'react-native-paper';
+import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+import { app } from '../utils/firebase';
 
 const LoginScreen = ({ navigation, setToken }) => {
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
+	const [error, setError] = useState('');
+
+	const auth = getAuth(app);
+
+	const handleLogin = async () => {
+		setError('');
+		try {
+			const userCredential = await signInWithEmailAndPassword(
+				auth,
+				email,
+				password,
+			);
+			const user = userCredential.user;
+			setToken(user.accessToken);
+			navigation.navigate('HomeScreen');
+		} catch (error) {
+			setError(error.message);
+		}
+	};
 
 	return (
 		<View style={styles.container}>
 			<Text variant={'titleLarge'} style={styles.title}>
 				Đăng Nhập
 			</Text>
+			{error ? <Text style={styles.errorText}>{error}</Text> : null}
 			<TextInput
 				mode={'outlined'}
 				label={'Email'}
@@ -26,7 +48,7 @@ const LoginScreen = ({ navigation, setToken }) => {
 				secureTextEntry
 				style={styles.input}
 			/>
-			<Button mode={'contained'} onPress={() => {}} style={styles.button}>
+			<Button mode={'contained'} onPress={handleLogin} style={styles.button}>
 				Đăng Nhập
 			</Button>
 			<TouchableOpacity
