@@ -1,0 +1,58 @@
+{
+	"users": {
+		"userId1": {
+			"email": "user@example.com",
+			"name": "John Doe"
+		},
+		"userId2": {
+			"email": "jane@example.com",
+			"name": "Jane Smith"
+		}
+	},
+	"rooms": {
+		"roomId1": {
+			"title": "Căn hộ ấm cúng",
+			"description": "Một căn hộ xinh đẹp ở trung tâm thành phố.",
+			"pricePerNight": 100,
+			"location": {
+				"latitude": 12.345678,
+				"longitude": 98.765432
+			},
+			"amenities": ["Wi-Fi", "Điều hòa không khí"],
+			"imageURL": "https://raw.githubusercontent.com/hardingadonis/hardingadonis/refs/heads/main/imgs/peaceful-banner.gif",
+			"availability": true,
+			"createdAt": "2024-01-01T00:00:00Z"
+		},
+		"roomId2": {
+			"title": "Suite sang trọng",
+			"description": "Một suite rộng rãi với tầm nhìn tuyệt đẹp.",
+			"pricePerNight": 250,
+			"location": {
+				"latitude": 12.987654,
+				"longitude": 98.123456
+			},
+			"amenities": ["Wi-Fi", "Hồ bơi", "Phòng tập"],
+			"imageURL": "https://raw.githubusercontent.com/hardingadonis/hardingadonis/refs/heads/main/imgs/peaceful-banner.gif",
+			"availability": true,
+			"createdAt": "2024-01-01T00:00:00Z"
+		}
+	},
+	"bookings": {
+		"bookingId1": {
+			"userId": "userId1",
+			"roomId": "roomId1",
+			"checkInDate": "2024-01-15T00:00:00Z",
+			"checkOutDate": "2024-01-20T00:00:00Z",
+			"status": "upcoming",
+			"createdAt": "2024-01-01T00:00:00Z"
+		},
+		"bookingId2": {
+			"userId": "userId2",
+			"roomId": "roomId2",
+			"checkInDate": "2024-01-10T00:00:00Z",
+			"checkOutDate": "2024-01-12T00:00:00Z",
+			"status": "completed",
+			"createdAt": "2024-01-02T00:00:00Z"
+		}
+	}
+}

@@ -1,17 +1,27 @@
+import { useState } from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import HomeScreen from '../screens/HomeScreen';
 import LoginScreen from '../screens/LoginScreen';
 import RegisterScreen from '../screens/RegisterScreen';
 
 const RNStack = createNativeStackNavigator();
 
 const RootNavigator = () => {
+	const [token, setToken] = useState('null');
+
 	return (
 		<RNStack.Navigator
 			screenOptions={{ headerShown: false }}
-			initialRouteName="LoginScreen"
+			initialRouteName={token ? 'HomeScreen' : 'LoginScreen'}
 		>
-			<RNStack.Screen name="LoginScreen" component={LoginScreen} />
-			<RNStack.Screen name="RegisterScreen" component={RegisterScreen} />
+			{token ? (
+				<RNStack.Screen name="HomeScreen" component={HomeScreen} />
+			) : (
+				<>
+					<RNStack.Screen name="LoginScreen" component={LoginScreen} />
+					<RNStack.Screen name="RegisterScreen" component={RegisterScreen} />
+				</>
+			)}
 		</RNStack.Navigator>
 	);
 };
