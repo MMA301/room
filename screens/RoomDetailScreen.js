@@ -4,17 +4,23 @@ import MapView, { Marker } from 'react-native-maps';
 import { Button, Divider, Appbar } from 'react-native-paper';
 import { formatCurrency } from 'react-native-format-currency';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import { getDatabase, ref, onValue } from 'firebase/database';
+import { getDatabase, ref, onValue, set } from 'firebase/database';
 import { app } from '../utils/firebase';
 
 const RoomDetailScreen = ({ route, navigation }) => {
-	const { roomId } = route.params;
+	const { roomId, userId } = route.params;
 
 	const [room, setRoom] = useState(null);
 	const [startDate, setStartDate] = useState(new Date());
 	const [endDate, setEndDate] = useState(new Date());
 	const [showStartDatePicker, setShowStartDatePicker] = useState(false);
 	const [showEndDatePicker, setShowEndDatePicker] = useState(false);
+
+	const generateRandomId = () => {
+		const timestamp = Date.now().toString(36);
+		const randomString = Math.random().toString(36).substring(2, 8);
+		return `${timestamp}_${randomString}`;
+	};
 
 	useEffect(() => {
 		const fetchRoomDetails = async () => {
@@ -58,7 +64,34 @@ const RoomDetailScreen = ({ route, navigation }) => {
 			`Bạn có chắc chắn muốn đặt phòng từ ngày ${startDate.toLocaleDateString()} đến ${endDate.toLocaleDateString()}?`,
 			[
 				{ text: 'Hủy', style: 'cancel' },
-				{ text: 'Xác nhận', onPress: () => navigation.goBack() },
+				{
+					text: 'Xác nhận',
+					onPress: () => {
+						const bookingId = generateRandomId();
+						const bookingData = {
+							userId: userId,
+							roomId: roomId,
+							checkInDate: startDate.toISOString(),
+							checkOutDate: endDate.toISOString(),
+							status: 'upcoming',
+							createdAt: new Date().toISOString(),
+						};
+
+						console.log('Booking data:', bookingData);
+
+						const db = getDatabase(app);
+						const bookingsRef = ref(db, `bookings/${bookingId}`);
+						set(bookingsRef, bookingData)
+							.then(() => {
+								Alert.alert('Success', 'Đặt phòng thành công!');
+								navigation.goBack();
+							})
+							.catch((error) => {
+								console.error('Error saving booking:', error);
+								Alert.alert('Error', 'Không thể lưu thông tin đặt phòng.');
+							});
+					},
+				},
 			],
 		);
 	};

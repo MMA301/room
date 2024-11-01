@@ -71,7 +71,10 @@ const HomeScreen = ({ navigation, token, setToken }) => {
 						mode="contained"
 						style={styles.button}
 						onPress={() =>
-							navigation.navigate('RoomDetailScreen', { roomId: item.id })
+							navigation.navigate('RoomDetailScreen', {
+								roomId: item.id,
+								userId: token,
+							})
 						}
 					>
 						Xem Chi Tiết
